@@ -2,16 +2,30 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const RESEND_FROM = "BrandLogiq <beth.t@example.com>";
 
 function readString(value: unknown, max: number) {
   if (typeof value !== "string") return "";
   return value.trim().slice(0, max);
 }
 
+function emailAddress(value: string) {
+  return (value.match(/<([^>]+)>/)?.[1] || value).trim().toLowerCase();
+}
+
+function resolveFrom(to: string, configured: string) {
+  const fromDomain = emailAddress(configured).split("@")[1];
+  const toDomain = emailAddress(to).split("@")[1];
+  if (fromDomain && toDomain && fromDomain === toDomain) {
+    return RESEND_FROM;
+  }
+  return configured;
+}
+
 export async function POST(request: Request) {
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_TO_EMAIL || "hello@brandlogiq.org";
-  const from = process.env.CONTACT_FROM_EMAIL || "BrandLogiq <forms@brandlogiq.org>";
+  const from = resolveFrom(to, process.env.CONTACT_FROM_EMAIL || RESEND_FROM);
 
   if (!apiKey) {
     return NextResponse.json({ error: "Email is not configured." }, { status: 503 });
@@ -46,7 +60,8 @@ export async function POST(request: Request) {
   });
 
   if (error) {
-    return NextResponse.json({ error: "Could not send the request." }, { status: 502 });
+    console.error("Resend send failed", error);
+    return NextResponse.json({ error: error.message || "Could not send the request." }, { status: 502 });
   }
 
   return NextResponse.json({ ok: true });
