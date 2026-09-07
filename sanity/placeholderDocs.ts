@@ -59,12 +59,21 @@ export function getPlaceholderDocuments(): IdentifiedSanityDocumentStub[] {
       featuredLabel: project.featuredLabel,
       featuredColor: project.featuredColor,
       order: index + 1,
-      gallery: (project.gallery ?? []).map((url, imageIndex) => ({
-        _type: "externalImage",
-        _key: `gallery-${imageIndex}`,
-        url,
-        alt: `${project.title} ${imageIndex + 1}`,
-      })),
+      gallery: (project.gallery ?? []).map((item, imageIndex) =>
+        item.type === "youtube"
+          ? {
+              _type: "youtubeVideo",
+              _key: `gallery-${imageIndex}`,
+              url: item.src,
+              alt: item.alt,
+            }
+          : {
+              _type: "externalImage",
+              _key: `gallery-${imageIndex}`,
+              url: item.src,
+              alt: item.alt || `${project.title} ${imageIndex + 1}`,
+            }
+      ),
     })),
   ];
 }

@@ -36,7 +36,11 @@ export const PROJECTS_QUERY = `*[_type == "project"] | order(order asc, year des
   featuredLabel,
   featuredColor,
   "coverImage": coverImage.asset->url,
-  "gallery": gallery[]{ "url": coalesce(url, asset->url) }.url
+  "gallery": gallery[]{
+    "_type": _type,
+    "url": coalesce(url, asset->url),
+    alt
+  }
 }`;
 
 export const PROJECT_BY_SLUG_QUERY = `*[_type == "project" && slug.current == $slug][0] {
@@ -54,5 +58,9 @@ export const PROJECT_BY_SLUG_QUERY = `*[_type == "project" && slug.current == $s
   featuredLabel,
   featuredColor,
   "coverImage": coverImage.asset->url,
-  "gallery": gallery[]{ "url": coalesce(url, asset->url) }.url
+  "gallery": gallery[]{
+    "_type": _type,
+    "url": coalesce(url, asset->url),
+    alt
+  }
 }`;

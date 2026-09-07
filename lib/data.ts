@@ -1,3 +1,7 @@
+import { NPL_PLACEHOLDER_YOUTUBE, toGalleryItem, type GalleryItem } from "./youtube";
+
+export type { GalleryItem };
+
 export interface Project {
   id: string;
   slug: string;
@@ -9,7 +13,7 @@ export interface Project {
   services: string[];
   videoUrl?: string;
   coverImage?: string;
-  gallery?: string[];
+  gallery?: GalleryItem[];
   featured?: boolean;
   featuredTitle?: string;
   featuredLabel?: string;
@@ -31,12 +35,13 @@ export const projects: Project[] = [
     featuredLabel: "Sports Franchise",
     featuredColor: "bg-accent",
     gallery: [
-      "https://images.unsplash.com/photo-1531415074968-036ba1b575da?q=80&w=2067&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1624526267942-ab0ff8a3e972?q=80&w=2069&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1512719994953-eabf50895df7?q=80&w=2029&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=2070&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?q=80&w=2066&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=2005&auto=format&fit=crop"
+      toGalleryItem({ type: "youtubeVideo", url: NPL_PLACEHOLDER_YOUTUBE, alt: "NPL film" })!,
+      toGalleryItem({ url: "https://images.unsplash.com/photo-1531415074968-036ba1b575da?q=80&w=2067&auto=format&fit=crop", alt: "NPL 1" })!,
+      toGalleryItem({ url: "https://images.unsplash.com/photo-1624526267942-ab0ff8a3e972?q=80&w=2069&auto=format&fit=crop", alt: "NPL 2" })!,
+      toGalleryItem({ url: "https://images.unsplash.com/photo-1512719994953-eabf50895df7?q=80&w=2029&auto=format&fit=crop", alt: "NPL 3" })!,
+      toGalleryItem({ url: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=2070&auto=format&fit=crop", alt: "NPL 4" })!,
+      toGalleryItem({ url: "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?q=80&w=2066&auto=format&fit=crop", alt: "NPL 5" })!,
+      toGalleryItem({ url: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=2005&auto=format&fit=crop", alt: "NPL 6" })!,
     ]
   },
   {

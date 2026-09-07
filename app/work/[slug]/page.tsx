@@ -97,7 +97,7 @@ export default async function ProjectPage({
       </section>
 
       {/* Gallery */}
-      <ProjectGallery images={project.gallery || []} heading={work.galleryLabel} />
+      <ProjectGallery items={project.gallery || []} heading={work.galleryLabel} />
 
       {nextProject && (
         <section className="px-6 md:px-12 py-20 border-t border-neutral-200 dark:border-neutral-800 mt-20">

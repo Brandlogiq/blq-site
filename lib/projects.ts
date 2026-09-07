@@ -1,6 +1,13 @@
 import { client, isSanityConfigured } from "@/lib/sanity";
 import { PROJECTS_QUERY, PROJECT_BY_SLUG_QUERY } from "@/lib/queries";
 import { projects as fallbackProjects, type Project } from "@/lib/data";
+import { NPL_PLACEHOLDER_YOUTUBE, toGalleryItem, type GalleryItem } from "@/lib/youtube";
+
+type SanityGalleryItem = {
+  _type?: string;
+  url?: string | null;
+  alt?: string | null;
+};
 
 type SanityProject = {
   _id: string;
@@ -17,10 +24,25 @@ type SanityProject = {
   featuredLabel?: string;
   featuredColor?: string;
   coverImage?: string;
-  gallery?: Array<string | null>;
+  gallery?: SanityGalleryItem[];
 };
 
+function withNplPlaceholder(slug: string, gallery: GalleryItem[]): GalleryItem[] {
+  if (slug !== "nepal-premier-league") return gallery;
+  if (gallery.some((item) => item.type === "youtube")) return gallery;
+  const placeholder = toGalleryItem({
+    type: "youtubeVideo",
+    url: NPL_PLACEHOLDER_YOUTUBE,
+    alt: "NPL film",
+  });
+  return placeholder ? [placeholder, ...gallery] : gallery;
+}
+
 function toProject(doc: SanityProject): Project {
+  const gallery = (doc.gallery ?? [])
+    .map((item) => toGalleryItem({ url: item.url, type: item._type, alt: item.alt }))
+    .filter((item): item is GalleryItem => Boolean(item));
+
   return {
     id: doc._id,
     slug: doc.slug,
@@ -36,7 +58,7 @@ function toProject(doc: SanityProject): Project {
     featuredLabel: doc.featuredLabel,
     featuredColor: doc.featuredColor,
     coverImage: doc.coverImage,
-    gallery: (doc.gallery ?? []).filter((url): url is string => Boolean(url)),
+    gallery: withNplPlaceholder(doc.slug, gallery),
   };
 }
 

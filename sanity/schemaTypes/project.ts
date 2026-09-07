@@ -109,6 +109,34 @@ export const projectType = defineType({
             }),
           ],
         }),
+        defineArrayMember({
+          name: "youtubeVideo",
+          title: "YouTube video",
+          type: "object",
+          fields: [
+            defineField({
+              name: "url",
+              title: "YouTube URL",
+              type: "url",
+              validation: (rule) => rule.required(),
+              description: "Paste a watch, youtu.be, shorts, or embed URL. The site pulls the thumbnail automatically.",
+            }),
+            defineField({
+              name: "alt",
+              title: "Label",
+              type: "string",
+            }),
+          ],
+          preview: {
+            select: { url: "url" },
+            prepare({ url }) {
+              return {
+                title: "YouTube video",
+                subtitle: url,
+              };
+            },
+          },
+        }),
       ],
     }),
     defineField({
