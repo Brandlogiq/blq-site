@@ -15,7 +15,7 @@ function SeedView() {
     setMessage("");
     try {
       for (const doc of docs) {
-        await client.createOrReplace(doc);
+        await client.createOrReplace(doc as { _id: string; _type: string });
       }
       setStatus("done");
       setMessage(`Published ${docs.length} placeholder documents. Open Site Settings, Home, Work, Contact, and Projects to edit.`);

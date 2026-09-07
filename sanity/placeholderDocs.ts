@@ -1,3 +1,4 @@
+import type { IdentifiedSanityDocumentStub } from "@sanity/client";
 import { projects } from "../lib/data";
 import {
   fallbackContact,
@@ -6,7 +7,7 @@ import {
   fallbackWork,
 } from "../lib/site-defaults";
 
-export function getPlaceholderDocuments() {
+export function getPlaceholderDocuments(): IdentifiedSanityDocumentStub[] {
   return [
     {
       _id: "siteSettings",
