@@ -4,6 +4,7 @@ out
 .env
 .env.*
 !.env.example
+.sanity
 *.log
 .DS_Store
 Thumbs.db

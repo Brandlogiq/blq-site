@@ -7,9 +7,13 @@ export interface Project {
   description: string;
   year: string;
   services: string[];
-  videoUrl?: string; // Placeholder for video URL
-  coverImage?: string; // Placeholder for image URL
+  videoUrl?: string;
+  coverImage?: string;
   gallery?: string[];
+  featured?: boolean;
+  featuredTitle?: string;
+  featuredLabel?: string;
+  featuredColor?: string;
 }
 
 export const projects: Project[] = [
@@ -22,6 +26,10 @@ export const projects: Project[] = [
     year: "2025",
     services: ["Brand Identity", "Broadcast Design", "Event Production", "Digital Strategy"],
     description: "Redefining sports entertainment in the Himalayas. We didn't just design a logo; we built a cultural movement. From the electric broadcast packages to the stadium experience, NPL is the new gold standard for South Asian sports leagues.",
+    featured: true,
+    featuredTitle: "Nepal Premier League",
+    featuredLabel: "Sports Franchise",
+    featuredColor: "bg-accent",
     videoUrl: "/placeholder-npl.mp4",
     gallery: [
       "https://images.unsplash.com/photo-1531415074968-036ba1b575da?q=80&w=2067&auto=format&fit=crop",
@@ -41,6 +49,10 @@ export const projects: Project[] = [
     year: "2024",
     services: ["Global Campaign", "Film Production", "CGI"],
     description: "A high-octane global launch for the next generation of wearable tech. Shot across 4 continents, this campaign blends practical effects with cutting-edge CGI to tell a story of human potential unleashed.",
+    featured: true,
+    featuredTitle: "Global Campaign",
+    featuredLabel: "Foreign Client",
+    featuredColor: "bg-neutral-900",
   },
   {
     id: "3",
@@ -51,6 +63,10 @@ export const projects: Project[] = [
     year: "2024",
     services: ["Rebranding", "Social Strategy", "Content Creation"],
     description: "Breathing new life into a century-old legacy. We stripped back the noise to reveal the core of Kathmandu's urban spirit, connecting a heritage brand with Gen Z through raw, authentic storytelling.",
+    featured: true,
+    featuredTitle: "Local Dominance",
+    featuredLabel: "Nepal Campaign",
+    featuredColor: "bg-neutral-800",
   },
   {
     id: "4",
@@ -84,6 +100,6 @@ export const projects: Project[] = [
   },
 ];
 
-export function getProjectBySlug(slug: string) {
+export function getLocalProjectBySlug(slug: string) {
   return projects.find((p) => p.slug === slug);
 }

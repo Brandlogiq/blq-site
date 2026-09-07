@@ -1,8 +1,20 @@
 import { createClient } from "next-sanity";
+import { createImageUrlBuilder } from "@sanity/image-url";
+import { apiVersion, dataset, isSanityConfigured, projectId } from "@/sanity/env";
 
-export const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "mock_project_id",
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
-  apiVersion: "2024-01-01",
-  useCdn: false,
-});
+export { isSanityConfigured };
+
+export const client = isSanityConfigured
+  ? createClient({
+      projectId,
+      dataset,
+      apiVersion,
+      useCdn: true,
+    })
+  : null;
+
+const builder = client ? createImageUrlBuilder(client) : null;
+
+export function urlFor(source: Parameters<NonNullable<typeof builder>["image"]>[0]) {
+  return builder?.image(source);
+}

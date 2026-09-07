@@ -1,11 +1,12 @@
-import { getProjectBySlug, projects } from "@/lib/data";
+import { getProjectBySlug, getProjects } from "@/lib/projects";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import ProjectGallery from "@/components/work/ProjectGallery";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const projects = await getProjects();
   return projects.map((project) => ({
     slug: project.slug,
   }));
@@ -19,13 +20,15 @@ export default async function ProjectPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const [project, projects] = await Promise.all([
+    getProjectBySlug(slug),
+    getProjects(),
+  ]);
 
   if (!project) {
     notFound();
   }
 
-  // Find next project for navigation
   const currentIndex = projects.findIndex((p) => p.id === project.id);
   const nextProject = projects[(currentIndex + 1) % projects.length];
 
@@ -93,18 +96,19 @@ export default async function ProjectPage({
       {/* Gallery */}
       <ProjectGallery images={project.gallery || []} />
 
-      {/* Next Project Nav */}
-      <section className="px-6 md:px-12 py-20 border-t border-neutral-200 dark:border-neutral-800 mt-20">
-        <Link href={`/work/${nextProject.slug}`} className="group block">
-          <span className="text-sm uppercase tracking-widest opacity-50 mb-4 block">Next Project</span>
-          <div className="flex items-center justify-between">
-            <h2 className="text-[6vw] font-bold uppercase tracking-tighter leading-none group-hover:text-accent transition-colors">
-              {nextProject.title}
-            </h2>
-            <ArrowRight className="w-12 h-12 md:w-20 md:h-20 -rotate-45 group-hover:rotate-0 transition-transform duration-500" />
-          </div>
-        </Link>
-      </section>
+      {nextProject && (
+        <section className="px-6 md:px-12 py-20 border-t border-neutral-200 dark:border-neutral-800 mt-20">
+          <Link href={`/work/${nextProject.slug}`} className="group block">
+            <span className="text-sm uppercase tracking-widest opacity-50 mb-4 block">Next Project</span>
+            <div className="flex items-center justify-between">
+              <h2 className="text-[6vw] font-bold uppercase tracking-tighter leading-none group-hover:text-accent transition-colors">
+                {nextProject.title}
+              </h2>
+              <ArrowRight className="w-12 h-12 md:w-20 md:h-20 -rotate-45 group-hover:rotate-0 transition-transform duration-500" />
+            </div>
+          </Link>
+        </section>
+      )}
     </article>
   );
 }
