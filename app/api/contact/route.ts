@@ -11,7 +11,7 @@ function readString(value: unknown, max: number) {
 export async function POST(request: Request) {
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_TO_EMAIL || "hello@brandlogiq.org";
-  const from = process.env.CONTACT_FROM_EMAIL || "BrandLogiq <hello@brandlogiq.org>";
+  const from = process.env.CONTACT_FROM_EMAIL || "BrandLogiq <forms@brandlogiq.org>";
 
   if (!apiKey) {
     return NextResponse.json({ error: "Email is not configured." }, { status: 503 });
