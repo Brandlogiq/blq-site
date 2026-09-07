@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { fallbackWork } from "../../lib/site-defaults";
 
 export const workPageType = defineType({
   name: "workPage",
@@ -19,4 +20,5 @@ export const workPageType = defineType({
     defineField({ name: "galleryLabel", title: "Gallery heading", type: "string", initialValue: "Project Gallery" }),
     defineField({ name: "nextLabel", title: "Next project label", type: "string", initialValue: "Next Project" }),
   ],
+  initialValue: fallbackWork,
 });

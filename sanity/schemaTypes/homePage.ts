@@ -1,4 +1,5 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
+import { fallbackHome } from "../../lib/site-defaults";
 
 export const homePageType = defineType({
   name: "homePage",
@@ -56,4 +57,21 @@ export const homePageType = defineType({
     defineField({ name: "aboutCtaLabel", title: "About button", type: "string", initialValue: "Partner With Us" }),
     defineField({ name: "aboutCtaHref", title: "About button link", type: "string", initialValue: "/contact" }),
   ],
+  initialValue: {
+    heroTitle: fallbackHome.heroTitle,
+    heroAccent: fallbackHome.heroAccent,
+    heroSubtitle: fallbackHome.heroSubtitle,
+    marqueeLeft: fallbackHome.marqueeLeft,
+    marqueeRight: fallbackHome.marqueeRight,
+    aboutText: fallbackHome.aboutText,
+    aboutCtaLabel: fallbackHome.aboutCtaLabel,
+    aboutCtaHref: fallbackHome.aboutCtaHref,
+    capabilities: fallbackHome.capabilities.map((capability, index) => ({
+      _type: "capability",
+      _key: `capability-${index}`,
+      title: capability.title,
+      description: capability.description,
+      imageUrl: capability.image,
+    })),
+  },
 });

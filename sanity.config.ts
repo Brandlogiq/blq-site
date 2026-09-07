@@ -5,6 +5,7 @@ import { structureTool } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
 import { apiVersion, dataset, projectId } from "./sanity/env";
 import { schemaTypes } from "./sanity/schemaTypes";
+import { seedTool } from "./sanity/seedTool";
 
 const repo = (process.env.NEXT_PUBLIC_BASE_PATH || "").replace(/^\//, "");
 
@@ -40,6 +41,7 @@ export default defineConfig({
           ]),
     }),
     visionTool({ defaultApiVersion: apiVersion }),
+    seedTool(),
   ],
   schema: {
     types: schemaTypes,

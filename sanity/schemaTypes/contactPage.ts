@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { fallbackContact } from "../../lib/site-defaults";
 
 export const contactPageType = defineType({
   name: "contactPage",
@@ -20,4 +21,5 @@ export const contactPageType = defineType({
     defineField({ name: "briefPlaceholder", title: "Brief field placeholder", type: "string", initialValue: "Brief" }),
     defineField({ name: "submitLabel", title: "Form button", type: "string", initialValue: "Submit Request" }),
   ],
+  initialValue: fallbackContact,
 });

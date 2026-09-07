@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { fallbackSettings } from "../../lib/site-defaults";
 
 export const siteSettingsType = defineType({
   name: "siteSettings",
@@ -20,4 +21,5 @@ export const siteSettingsType = defineType({
     defineField({ name: "email", title: "Email", type: "string", initialValue: "hello@brandlogiq.org" }),
     defineField({ name: "copyright", title: "Footer copyright", type: "string", initialValue: "© 2026 BrandLogiq" }),
   ],
+  initialValue: fallbackSettings,
 });
