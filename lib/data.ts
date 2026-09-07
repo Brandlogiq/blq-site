@@ -30,7 +30,6 @@ export const projects: Project[] = [
     featuredTitle: "Nepal Premier League",
     featuredLabel: "Sports Franchise",
     featuredColor: "bg-accent",
-    videoUrl: "/placeholder-npl.mp4",
     gallery: [
       "https://images.unsplash.com/photo-1531415074968-036ba1b575da?q=80&w=2067&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1624526267942-ab0ff8a3e972?q=80&w=2069&auto=format&fit=crop",

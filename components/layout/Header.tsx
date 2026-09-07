@@ -5,7 +5,15 @@ import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import Magnetic from "@/components/ui/Magnetic";
 
-export default function Header() {
+export default function Header({
+  brandName,
+  workLabel,
+  contactLabel,
+}: {
+  brandName: string;
+  workLabel: string;
+  contactLabel: string;
+}) {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -17,7 +25,7 @@ export default function Header() {
     return (
       <header className="fixed top-0 w-full z-50 p-6 flex justify-between items-center bg-transparent backdrop-blur-sm border-b border-neutral-200/10">
         <div className="text-2xl font-bold tracking-tighter uppercase mix-blend-difference text-white">
-          BrandLogiq
+            {brandName}
         </div>
         <div className="w-10 h-10" />
       </header>
@@ -29,14 +37,14 @@ export default function Header() {
   return (
     <header className="fixed top-0 w-full z-50 p-6 flex justify-between items-center bg-transparent backdrop-blur-sm border-b border-neutral-500/10">
       <Link href="/" className="text-2xl font-bold tracking-tighter uppercase text-foreground transition-colors">
-        BrandLogiq
+        {brandName}
       </Link>
       <nav className="flex gap-8 items-center text-foreground font-sans font-medium">
         <Magnetic>
-          <Link href="/work" className="hover:text-accent transition-colors uppercase text-sm tracking-widest font-medium p-2">Work</Link>
+          <Link href="/work" className="hover:text-accent transition-colors uppercase text-sm tracking-widest font-medium p-2">{workLabel}</Link>
         </Magnetic>
         <Magnetic>
-          <Link href="/contact" className="hover:text-accent transition-colors uppercase text-sm tracking-widest font-medium p-2">Contact</Link>
+          <Link href="/contact" className="hover:text-accent transition-colors uppercase text-sm tracking-widest font-medium p-2">{contactLabel}</Link>
         </Magnetic>
         <Magnetic>
           <button

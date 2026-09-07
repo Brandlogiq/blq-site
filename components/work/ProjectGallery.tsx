@@ -6,11 +6,12 @@ import ImageModal from "@/components/ui/ImageModal";
 
 interface ProjectGalleryProps {
   images: string[];
+  heading: string;
 }
 
 const ITEMS_PER_PAGE = 4;
 
-export default function ProjectGallery({ images }: ProjectGalleryProps) {
+export default function ProjectGallery({ images, heading }: ProjectGalleryProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -44,7 +45,7 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
 
   return (
     <section className="px-6 md:px-12 py-20 border-t border-neutral-200 dark:border-neutral-800">
-      <h3 className="text-sm uppercase tracking-widest opacity-50 mb-12">Project Gallery</h3>
+      <h3 className="text-sm uppercase tracking-widest opacity-50 mb-12">{heading}</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 min-h-[60vh]">
         <AnimatePresence mode="wait">

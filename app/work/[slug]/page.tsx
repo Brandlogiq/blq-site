@@ -1,9 +1,11 @@
 import { getProjectBySlug, getProjects } from "@/lib/projects";
+import { getWorkContent } from "@/lib/site";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import ProjectGallery from "@/components/work/ProjectGallery";
+import VideoBackground from "@/components/ui/VideoBackground";
 
 export async function generateStaticParams() {
   const projects = await getProjects();
@@ -12,7 +14,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export default async function ProjectPage({
   params,
@@ -20,9 +22,10 @@ export default async function ProjectPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [project, projects] = await Promise.all([
+  const [project, projects, work] = await Promise.all([
     getProjectBySlug(slug),
     getProjects(),
+    getWorkContent(),
   ]);
 
   if (!project) {
@@ -35,33 +38,33 @@ export default async function ProjectPage({
   return (
     <article className="min-h-screen pb-20">
       {/* Hero Section */}
-      <section className="h-[80vh] relative flex flex-col justify-end p-6 md:p-12 border-b border-neutral-200 dark:border-neutral-800">
-        <div className="absolute inset-0 bg-neutral-200 dark:bg-neutral-900 -z-10 animate-pulse">
-          {/* Placeholder for Hero Video/Image */}
+      <section className="h-[80vh] relative overflow-hidden flex flex-col justify-end p-6 md:p-12 border-b border-neutral-200 dark:border-neutral-800">
+        <div className="absolute inset-0 bg-neutral-200 dark:bg-neutral-900 -z-10">
           <div className="w-full h-full opacity-10 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
         </div>
+        <VideoBackground src={project.videoUrl} poster={project.coverImage} />
         
-        <div className="max-w-7xl w-full mx-auto">
+        <div className={`relative z-10 max-w-7xl w-full mx-auto ${(project.videoUrl || project.coverImage) ? "text-white" : ""}`}>
           <Link 
             href="/work" 
             className="inline-flex items-center gap-2 text-sm uppercase tracking-widest mb-8 hover:text-accent transition-colors"
           >
-            <ArrowLeft size={16} /> Back to Work
+            <ArrowLeft size={16} /> {work.backLabel}
           </Link>
           <h1 className="text-[10vw] md:text-[8vw] font-bold uppercase tracking-tighter leading-none mb-4">
             {project.title}
           </h1>
           <div className="flex flex-col md:flex-row gap-8 md:gap-20 text-sm uppercase tracking-widest opacity-80">
             <div>
-              <span className="block opacity-60 mb-1">Client</span>
+              <span className="block opacity-60 mb-1">{work.clientLabel}</span>
               {project.client}
             </div>
             <div>
-              <span className="block opacity-60 mb-1">Year</span>
+              <span className="block opacity-60 mb-1">{work.yearLabel}</span>
               {project.year}
             </div>
             <div>
-              <span className="block opacity-60 mb-1">Category</span>
+              <span className="block opacity-60 mb-1">{work.categoryLabel}</span>
               {project.category}
             </div>
           </div>
@@ -73,7 +76,7 @@ export default async function ProjectPage({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
           {/* Services List */}
           <div className="md:col-span-4">
-            <h3 className="text-sm uppercase tracking-widest opacity-50 mb-6">Services</h3>
+            <h3 className="text-sm uppercase tracking-widest opacity-50 mb-6">{work.servicesLabel}</h3>
             <ul className="space-y-2">
               {project.services.map((service) => (
                 <li key={service} className="text-lg md:text-xl font-medium border-b border-neutral-200 dark:border-neutral-800 py-2">
@@ -85,7 +88,7 @@ export default async function ProjectPage({
 
           {/* Description */}
           <div className="md:col-span-8">
-            <h3 className="text-sm uppercase tracking-widest opacity-50 mb-6">The Brief</h3>
+            <h3 className="text-sm uppercase tracking-widest opacity-50 mb-6">{work.briefLabel}</h3>
             <p className="text-2xl md:text-4xl leading-tight font-medium">
               {project.description}
             </p>
@@ -94,12 +97,12 @@ export default async function ProjectPage({
       </section>
 
       {/* Gallery */}
-      <ProjectGallery images={project.gallery || []} />
+      <ProjectGallery images={project.gallery || []} heading={work.galleryLabel} />
 
       {nextProject && (
         <section className="px-6 md:px-12 py-20 border-t border-neutral-200 dark:border-neutral-800 mt-20">
           <Link href={`/work/${nextProject.slug}`} className="group block">
-            <span className="text-sm uppercase tracking-widest opacity-50 mb-4 block">Next Project</span>
+            <span className="text-sm uppercase tracking-widest opacity-50 mb-4 block">{work.nextLabel}</span>
             <div className="flex items-center justify-between">
               <h2 className="text-[6vw] font-bold uppercase tracking-tighter leading-none group-hover:text-accent transition-colors">
                 {nextProject.title}

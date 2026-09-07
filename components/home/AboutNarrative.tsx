@@ -4,7 +4,15 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { useRef, useState } from "react";
 
-export default function AboutNarrative() {
+export default function AboutNarrative({
+  text,
+  ctaLabel,
+  ctaHref,
+}: {
+  text: string;
+  ctaLabel: string;
+  ctaHref: string;
+}) {
   const buttonRef = useRef<HTMLDivElement>(null);
   
   // Magnetic effect values
@@ -47,7 +55,7 @@ export default function AboutNarrative() {
             viewport={{ once: true }}
             className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight leading-[1.1] normal-case"
           >
-            BrandLogiq is a creative infrastructure. We are an interface between global brands and local execution, and a studio producing the next generation of original assets.
+            {text}
           </motion.p>
         </div>
         
@@ -63,7 +71,7 @@ export default function AboutNarrative() {
             className="relative"
           >
             <Link 
-              href="/contact" 
+              href={ctaHref} 
               className="group inline-flex items-center gap-6"
             >
               <motion.div 
@@ -71,7 +79,7 @@ export default function AboutNarrative() {
                 className="flex items-center gap-6"
               >
                 <span className="text-xl uppercase tracking-widest font-medium text-accent">
-                  Partner With Us
+                  {ctaLabel}
                 </span>
                 
                 <div className="relative">

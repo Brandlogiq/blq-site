@@ -58,8 +58,15 @@ export const projectType = defineType({
       options: { layout: "tags" },
     }),
     defineField({
+      name: "backgroundVideo",
+      title: "Background video",
+      type: "file",
+      options: { accept: "video/mp4,video/webm" },
+      description: "MP4 recommended. Plays muted and looping behind the project title.",
+    }),
+    defineField({
       name: "videoUrl",
-      title: "Video URL",
+      title: "Or background video URL",
       type: "url",
     }),
     defineField({

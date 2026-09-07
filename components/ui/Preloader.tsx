@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function Preloader() {
+export default function Preloader({ brandName }: { brandName: string }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function Preloader() {
             exit={{ opacity: 0 }}
             className="text-[12vw] font-bold uppercase tracking-tighter leading-none"
           >
-            BrandLogiq
+            {brandName}
           </motion.div>
         </motion.div>
       )}

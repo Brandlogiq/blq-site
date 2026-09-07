@@ -78,3 +78,17 @@ export function getFeaturedProjects(projects: Project[]): Project[] {
   const featured = projects.filter((project) => project.featured);
   return featured.length > 0 ? featured : projects.slice(0, 3);
 }
+
+export async function getSanityStats() {
+  if (!client || !isSanityConfigured) {
+    return { connected: false, count: 0 };
+  }
+
+  try {
+    const count = await client.fetch<number>('count(*[_type == "project"])');
+    return { connected: true, count };
+  } catch (error) {
+    console.warn("Sanity stats fetch failed.", error);
+    return { connected: false, count: 0 };
+  }
+}

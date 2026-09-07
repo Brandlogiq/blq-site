@@ -7,7 +7,15 @@ import type { Project } from "@/lib/data";
 
 const ITEMS_PER_PAGE = 4;
 
-export default function ProjectList({ projects }: { projects: Project[] }) {
+export default function ProjectList({
+  projects,
+  filters,
+  viewLabel,
+}: {
+  projects: Project[];
+  filters: { all: string; client: string; ventures: string };
+  viewLabel: string;
+}) {
   const [filter, setFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -25,14 +33,18 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
   return (
     <div>
       <div className="flex gap-6 mb-12 text-sm uppercase tracking-widest sticky top-24 z-20 bg-background/80 backdrop-blur-sm py-4">
-        {["All", "Client", "Ventures"].map((f) => (
+        {[
+          { value: "All", label: filters.all },
+          { value: "Client", label: filters.client },
+          { value: "Ventures", label: filters.ventures },
+        ].map((f) => (
           <button
-            key={f}
-            onClick={() => setFilter(f)}
-            className={`${filter === f ? "text-accent" : "opacity-50 hover:opacity-100"} transition-all relative group`}
+            key={f.value}
+            onClick={() => setFilter(f.value)}
+            className={`${filter === f.value ? "text-accent" : "opacity-50 hover:opacity-100"} transition-all relative group`}
           >
-            {f}
-            {filter === f && (
+            {f.label}
+            {filter === f.value && (
               <motion.div
                 layoutId="filter-active"
                 className="absolute -bottom-1 left-0 right-0 h-[1px] bg-accent"
@@ -63,7 +75,7 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
                   </h2>
                   <div className="flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-[-20px] group-hover:translate-x-6 text-accent">
                     <div className="h-[1px] w-8 bg-current" />
-                    <span className="text-xs uppercase tracking-[0.3em] font-medium">View Project</span>
+                    <span className="text-xs uppercase tracking-[0.3em] font-medium">{viewLabel}</span>
                   </div>
                 </div>
 
